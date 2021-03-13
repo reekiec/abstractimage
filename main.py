@@ -110,7 +110,7 @@ class ImageModifier:
                 replacement = [255,255,255]
                 max_index = self._largestIndex(list(self.image[row,column]))
                 
-                if self.image[row,column,0] > 200 and self.image[row,column,1] > 200 and self.image[row,column,2] > 200:
+                if self.image[row,column,0] > 200 and self.image[row,column,1] > 200 and self.image[row,column,2] > 200: # if white
                     self.image[row,column] = replacement
                     continue
                 elif self.image[row,column,max_index] >= percentileList[max_index]:
@@ -124,8 +124,64 @@ class ImageModifier:
             img = Image.fromarray(self.image, 'RGB')
             img.save(imgPath)
     
-    def findDifferences(self, cutoff):
-        for row in range(self.image.shape[0]):
-            for col in range(self.image.shape[1]-1):
-                print(self.image[row,col])
-                print(self.image[row,col+1])
+    def findDifferences(self, cutoff,direction):
+        diffs = [0]
+
+        # Search differences between rows
+        if (direction == 0):
+            for row in range(self.image.shape[0]-1):
+                for col in range(self.image.shape[1]):
+                    total1 = sum(self.image[row,col])
+                    total2 = sum(self.image[row+1,col])
+                    diff = total2 - total1
+                    diffs.append(diff)
+                    if abs(diff) < cutoff:
+                        self.image[row,col] = [255, 255, 255]
+                    else:
+                        self.image[row,col] = [0, 0, 0]
+        
+        # Search differences between columns
+        elif (direction == 1):
+            for row in range(self.image.shape[0]):
+                for col in range(self.image.shape[1]-1):
+                    total1 = sum(self.image[row,col])
+                    total2 = sum(self.image[row,col+1])
+                    diff = total2 - total1
+                    diffs.append(diff)
+                    if abs(diff) >= cutoff:
+                        self.image[row,col] = [0, 0, 0]
+                    else:
+                        self.image[row,col] = [255,255,255]
+
+        # Search diagonally down & right
+        elif (direction == 2):
+            for row in range(self.image.shape[0]-1):
+                for col in range(self.image.shape[1]-1):
+                    total1 = sum(self.image[row,col])
+                    total2 = sum(self.image[row+1,col+1])
+                    diff = total2 - total1
+                    diffs.append(diff)
+                    if abs(diff) < cutoff:
+                        self.image[row,col] = [255, 255, 255]
+                    else:
+                        self.image[row,col] = [0, 0, 0]
+
+        # Search diagonally down & left
+        elif (direction == 3):
+            for row in range(self.image.shape[0]-1):
+                for col in range(1,self.image.shape[1]):
+                    total1 = sum(self.image[row,col])
+                    total2 = sum(self.image[row+1,col-1])
+                    diff = total2 - total1
+                    diffs.append(diff)
+                    if abs(diff) < cutoff:
+                        self.image[row,col] = [255, 255, 255]
+                    else:
+                        self.image[row,col] = [0, 0, 0]
+
+        print("Max: ", max(diffs))
+        print("Min: ", min(diffs))
+        print(f"Count above {cutoff}: ", sum(i>=cutoff for i in diffs))
+        print(f"Count below -{cutoff}: ", sum(i<=-1*cutoff for i in diffs))
+
+        print(f"Rows: {self.image.shape[0]}, Columns: {self.image.shape[1]}, Total Pixels: {self.image.shape[1]*self.image.shape[0]}")

@@ -30,11 +30,27 @@ def test_isolate_colors():
     im.saveImage("mtn.png")
 
 def differences():
+    """
+    Creates four different pictures based on the difference between
+    sums of pixel values in certain directions.
+    1st value is the cutoff for difference to trigger output pixel
+    2nd value is direction:
+    0 = down
+    1 = right
+    2 = down+right
+    3 = down+left
+    Down seems to produce clearest output, but it depends on the picture
+    """
     im = ImageModifier()
     im.openImage("mountain.jpeg")
-    im.findDifferences(100)
-    #im.isolateColors(percentileList)
-    #im.saveImage("mtn.png")
+    im.findDifferences(100,0)
+    im.saveImage("mtn.png")
+    im.findDifferences(100,1)
+    im.saveImage("mtn1.png")
+    im.findDifferences(100,2)
+    im.saveImage("mtn2.png")
+    im.findDifferences(100,3)
+    im.saveImage("mtn3.png")
 
 if __name__ == "__main__":
     # test_open_image()
