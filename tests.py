@@ -29,9 +29,17 @@ def test_isolate_colors():
     im.isolateColors(percentileList)
     im.saveImage("mtn.png")
 
+def differences():
+    im = ImageModifier()
+    im.openImage("mountain.jpeg")
+    im.findDifferences(100)
+    #im.isolateColors(percentileList)
+    #im.saveImage("mtn.png")
+
 if __name__ == "__main__":
     # test_open_image()
     # test_get_red_list()
     # test_get_red_percentile()
     # test_get_percentile_list()
-    test_isolate_colors()
+    # test_isolate_colors()
+    differences()

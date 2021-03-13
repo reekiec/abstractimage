@@ -123,3 +123,9 @@ class ImageModifier:
         if type(self.image) != type(None):
             img = Image.fromarray(self.image, 'RGB')
             img.save(imgPath)
+    
+    def findDifferences(self, cutoff):
+        for row in range(self.image.shape[0]):
+            for col in range(self.image.shape[1]-1):
+                print(self.image[row,col])
+                print(self.image[row,col+1])
