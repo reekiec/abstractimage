@@ -7,6 +7,9 @@ class ImageModifier:
 
     def _largestIndex(self, l):
         return l.index(max(l))
+    
+    def _resizeImage(self, im):
+        return im.resize((640, 480))
 
     def openImage(self, imagePath):
         """
@@ -16,6 +19,7 @@ class ImageModifier:
         """
 
         img = Image.open(imagePath)
+        img = self._resizeImage(img)
         img = np.array(img)
         self.image = img
 
