@@ -42,10 +42,10 @@ def differences():
     Down seems to produce clearest output, but it depends on the picture
     """
     im = ImageModifier()
-    im.openImage("mountain.jpeg")
-    im.findDifferences(30)
+    im.openImage("rainier.jpeg")
+    im.findDifferences(170)
     im.cleanModImage()
-    im.saveModImage("mtn6.png")
+    im.saveModImage("rain02.png")
 
 if __name__ == "__main__":
     # test_open_image()

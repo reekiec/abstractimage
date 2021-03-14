@@ -130,3 +130,6 @@ dmypy.json
 
 # vscode settings
 .vscode
+
+# output images
+image_out/

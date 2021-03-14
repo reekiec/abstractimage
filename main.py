@@ -182,10 +182,19 @@ class ImageModifier:
         
         for row in range(self.mod_image.shape[0] - 1):
             for col in range(1, self.mod_image.shape[1]):
-                total1 = sum(self.mod_image[row, col])
-                total2 = sum(self.mod_image[row + 1, col - 1])
-                diff = total2 - total1
-                self.difference_array[row, col, 3] = abs(diff)
+                px1 = self.mod_image[row, col]
+                px2 = self.mod_image[row + 1, col - 1]
+                deltaRed = int(px2[0]) - int(px1[0])
+                deltaGreen = int(px2[1]) - int(px1[1])
+                deltaBlue = int(px2[2]) - int(px1[2])
+                diff = np.sqrt(
+                    sum(
+                        [
+                            deltaRed**2, 
+                            deltaGreen**2, 
+                            deltaBlue**2
+                        ]))
+                self.difference_array[row, col, 3] = diff
 
     def findDifferences(self, cutoff):
         diffs = [0]
