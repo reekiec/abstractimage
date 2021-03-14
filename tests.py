@@ -27,7 +27,7 @@ def test_isolate_colors():
     im.openImage("mountain.jpeg")
     percentileList = im.getPercentileList(75)
     im.isolateColors(percentileList)
-    im.saveImage("mtn.png")
+    im.saveModImage("mtn.png")
 
 def differences():
     """
@@ -42,15 +42,9 @@ def differences():
     Down seems to produce clearest output, but it depends on the picture
     """
     im = ImageModifier()
-    im.openImage("sideLitPic.jpg")
-    im.findDifferences(50,0)
-    im.saveImage("slp.png")
-    im.findDifferences(50,1)
-    im.saveImage("slp1.png")
-    im.findDifferences(50,2)
-    im.saveImage("slp2.png")
-    im.findDifferences(50,3)
-    im.saveImage("slp3.png")
+    im.openImage("ferrari.jpeg")
+    im.findDifferences(50)
+    im.saveModImage("rscar.png")
 
 if __name__ == "__main__":
     # test_open_image()
